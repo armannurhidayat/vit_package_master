@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <record model="ir.ui.view" id="tock_move_package_form">
+      <field name="name">stock_move_form</field>
+      <field name="model">stock.move</field>
+      <field name="inherit_id" ref="stock.view_stock_move_operations"/>
+      <field name="arch" type="xml">
+        <xpath expr="/form/group/group[1]" position="after">
+              <field name="production_id" invisible="1"/>
+              <group attrs="{'invisible': ['|',('production_id', '=', False),('state', '!=', 'assigned')]}">
+                            <field name="customer_id" options="{'no_create_edit':True, 'no_create':True}" domain="[('product_id','=',product_id)]"/>
+              </group>
+                 
+        </xpath>
+        
+        <xpath expr="/form/group[1]" position="after">
+              <group attrs="{'invisible': ['|',('production_id', '=', False),('state', '!=', 'assigned')]}">
+                        <group>
+                             <h3>Label Kecil</h3>
+                             <field name="qty_kecil"/>
+                             <field name="qty_kecil_dus"/>
+                            <h3>Non Std Qty</h3>
+                             <field name="qty_non_std"/>
+
+                        </group>
+                        <group>
+                             <h3>Label Besar</h3>
+                             <field name="qty_besar"/>
+                             <field name="qty_besar_dus"/>
+                             <button string="Create Package" class="btn btn-danger" type="object" name="action_create_package"/>
+                        </group>
+
+              </group>
+                 
+        </xpath>
+
+        <xpath expr="//field[@name='move_line_ids']" position="replace">
+          <notebook>
+                      <group string="Label Kecil">
+                      <page >
+                          <field name="move_line_ids" attrs="{'readonly': ['|', ('state', '=', 'cancel'), '&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}" context="{'tree_view_ref': 'stock.view_stock_move_line_operation_tree', 'default_product_uom_id': product_uom, 'default_picking_id': picking_id, 'default_move_id': id, 'default_product_id': product_id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id}"/>
+                      </page>
+                    </group>
+                    <group string="Label Besar" attrs="{'invisible': [('production_id', '=', False)]}">
+                        <page >
+                          <field name="label_besar_ids" >
+                            <tree editable="bottom">
+
+                              <field name="name"/>
+                              <field name ='package_ids' widget="many2many_tags"/>
+                            </tree>
+                        </field>
+                      </page>
+                    </group>
+          </notebook>
+        </xpath>
+
+
+
+
+      </field>
+    </record>
+  </data>
+</odoo>

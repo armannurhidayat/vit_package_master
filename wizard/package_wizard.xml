@@ -1,0 +1,33 @@
+<odoo>
+	<data>
+
+		<record id="package_repack_wizard_view" model="ir.ui.view">
+            <field name="name">repack.package.wizard.view</field>
+            <field name="model">repack.package.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Create New Repack">
+                	<group>
+                	<label for="package_ids"/>
+                        <h3>
+                            <field name="package_ids" widget="many2many_tags" class="oe_inline"/>
+                        </h3>
+            			<field name="keterangan" />
+                	</group>
+                    <footer>
+                        <button name="move" string="Create Repack" type="object" class="oe_highlight" confirm="Apakah anda yakin akan menambahkan Repack Baru?"/>
+                        <button string="Cancel" type="object" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+		<record id="action_repack_wizard" model="ir.actions.act_window">
+            <field name="name">Create New Repack</field>
+            <field name="res_model">repack.package.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+	</data>
+</odoo>
