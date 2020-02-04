@@ -11,7 +11,7 @@
     """,
 
     
-    'author': 'Arman Nur Hidayat',
+    'author': 'Arman Nur Hidayat <Vitraining>',
     'website': 'http://www.vitraining.com',
 
     
