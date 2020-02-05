@@ -22,8 +22,6 @@ class Package_Quant(models.Model):
 		action = self.env.ref('vit_package_master.action_repack_wizard')
 		result = action.read()[0]
 
-		create_package_ids = self.env.context.get('create_package_ids', False)
-
 		id_pack = []
 		for x in self.package_ids:
 			id_pack.append(x.id)
