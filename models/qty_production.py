@@ -10,7 +10,7 @@ import logging
 class QtyProduction(models.Model):
     _name = 'qty.product'
     _rec_name ='partner_id'
-
+    
 
     partner_id = fields.Many2one(
         string='Customer',

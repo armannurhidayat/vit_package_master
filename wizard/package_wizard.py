@@ -14,13 +14,27 @@ class RepackWizard(models.TransientModel):
 	_description= "Repack Package Wizard"
 	_inherit = "stock.quant.package"
 
-	package_ids = fields.One2many('stock.quant.package', 'package_baru_id', string='Child Package')
+	package_ids = fields.Many2many('stock.quant.package', string='Child Package')
 	keterangan = fields.Text(string='Keterangan')
 
 
 	@api.multi
 	def move(self):
-		obj_package = self.env['stock.quant.package'].create({
-			'name' : "R-"+self.name,
-			'package_ids' : self.package_ids,
-		})
+		active_ids = self._context.get('active_ids')
+		active_ids = active_ids or False
+		lab_req_obj = self.env['stock.quant.package'].search([])
+		lab_reqs = lab_req_obj.browse(active_ids)
+		for lab_req in lab_reqs:
+			if lab_req.active == False:
+				raise Warning('Repack Sudah Menjadi Archive !!')
+
+			lab_reqs.create({
+				'name' : "R-"+lab_reqs.name,
+				'keterangan' : self.keterangan,
+				'package_ids' : [(6,0, self.package_ids.ids)]
+				})
+
+			if lab_req.package_ids.name is False:
+				lab_req.active = False
+			else :
+				lab_reqs.active = True
